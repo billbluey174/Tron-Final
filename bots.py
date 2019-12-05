@@ -193,10 +193,7 @@ class StudentBot:
             frontiers[ptm] = new_frontiers
             ptm = 1 - ptm
         
-        
-        
-        
-        return scores[state.ptm]
+        return (scores[state.ptm]-scores[1-state.ptm])
 
     def evaluate_square(self, board, curr):
         spot = board[curr[0]][curr[1]]
