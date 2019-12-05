@@ -205,26 +205,26 @@ class StudentBot:
         visited = set()
         scores = [0, 0]
         walls = set()
-        while len(frontiers[0])>0 or len(frontiers[1])>0:
-            if (len(frontiers[ptm])==0):
+        while len(frontiers[0]) > 0 or len(frontiers[1]) > 0:
+            if len(frontiers[ptm]) == 0:
                 ptm = 1 - ptm
                 continue
             
             new_frontiers = set()
-            while len(frontiers[ptm])>0:
+            while len(frontiers[ptm]) > 0:
                 curr = frontiers[ptm].pop()
                 visited.add(curr)
                 
                 value = self.evaluate_square(state.board,curr)
                 
                 scores[ptm] += value
-                if value==0:
+                if value == 0:
                     walls.add(curr)
                 
-                new_states = [(curr[0]-1,curr[1]),
-                              (curr[0],curr[1]-1),
-                              (curr[0]+1,curr[1]),
-                              (curr[0],curr[1]+1)]
+                new_states = [(curr[0]-1, curr[1]),
+                              (curr[0], curr[1]-1),
+                              (curr[0]+1, curr[1]),
+                              (curr[0], curr[1]+1)]
                 
                 for s in new_states:
                     if s not in visited and s not in walls and self.check_square(state.board, s):
@@ -233,7 +233,7 @@ class StudentBot:
             frontiers[ptm] = new_frontiers
             ptm = 1 - ptm
         
-        return (scores[0]-scores[1])
+        return scores[0]-scores[1]
     
     def check_square(self, board, curr):
         spot = board[curr[0]][curr[1]]
