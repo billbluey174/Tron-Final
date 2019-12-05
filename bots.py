@@ -32,7 +32,7 @@ class StudentBot:
         #     return random.choice(possibilities)
         choice = self.alpha_beta_cutoff(asp, 5)
         #print(choice)
-        print(self.heuristic(asp.get_start_state()))
+        #print(self.heuristic(asp.get_start_state()))
         return choice
 
     def cleanup(self):
@@ -196,7 +196,7 @@ class StudentBot:
         :param state: TronState
         :return: a single value
         """
-        ptm = state.ptm
+        ptm = 0
         player_loc = state.player_locs[ptm]
         enemy_loc = state.player_locs[1-ptm]
         frontiers = [set(), set()]
@@ -233,7 +233,7 @@ class StudentBot:
             frontiers[ptm] = new_frontiers
             ptm = 1 - ptm
         
-        return -(scores[ptm]-scores[1-ptm])
+        return (scores[0]-scores[1])
     
     def check_square(self, board, curr):
         spot = board[curr[0]][curr[1]]
