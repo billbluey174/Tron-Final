@@ -128,7 +128,7 @@ class StudentBot:
             return [asp.evaluate_state(state)[asp.get_start_state().player_to_move()], None]
 
         if depth == 0:
-            return [self.heuristic1(state), None]
+            return [self.heuristic(state), None]
 
         # Store the possible actions
         possible_actions = self.get_safe_moves(state.board, state.player_locs[state.ptm])
@@ -190,51 +190,6 @@ class StudentBot:
             return [value, action]
 
     def heuristic(self, state):
-        """
-        Takes in a TronState, returns a value indicating how good the state is
-        :param state: TronState
-        :return: a single value
-        """
-        ptm = 0
-        player_loc = state.player_locs[ptm]
-        enemy_loc = state.player_locs[1-ptm]
-        frontiers = [set(), set()]
-        frontiers[ptm].add(player_loc)
-        frontiers[1-ptm].add(enemy_loc)
-        visited = set()
-        scores = [0, 0]
-        walls = set()
-        while len(frontiers[0]) > 0 or len(frontiers[1]) > 0:
-            if len(frontiers[ptm]) == 0:
-                ptm = 1 - ptm
-                continue
-            
-            new_frontiers = set()
-            while len(frontiers[ptm]) > 0:
-                curr = frontiers[ptm].pop()
-                visited.add(curr)
-                
-                value = self.evaluate_square(state.board,curr)
-                
-                scores[ptm] += value
-                if value == 0:
-                    walls.add(curr)
-                
-                new_states = [(curr[0]-1, curr[1]),
-                              (curr[0], curr[1]-1),
-                              (curr[0]+1, curr[1]),
-                              (curr[0], curr[1]+1)]
-                
-                for s in new_states:
-                    if s not in visited and s not in walls and self.check_square(state.board, s):
-                        new_frontiers.add(s)
-
-            frontiers[ptm] = new_frontiers
-            ptm = 1 - ptm
-        
-        return scores[0] - scores[1]
-
-    def heuristic1(self, state):
         """
         Takes in a TronState, returns a value indicating how good the state is
         :param state: TronState
