@@ -48,11 +48,56 @@ class StudentBot:
 
     def heuristic(self, state):
         """
-        Takes in a state, returns a value indicating how good the state is
-        :param state: list of lists representing the board
+        Takes in a TronState, returns a value indicating how good the state is
+        :param state: TronState
         :return: a single value
         """
-
+        
+        player_loc = state.player_locs[state.ptm] # current player's location
+        enemy_loc = state.player_locs[1-state.ptm]
+        
+        score = 0
+        board = state.board
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                player_dist = abs(player_loc[0]-i) + abs(player_loc[1]-j)
+                enemy_dist = abs(enemy_loc[0]-i) + abs(enemy_loc[1]-j)
+                if board[i][j]==" ":
+                    if (player_dist<enemy_dist):
+                        score+=1
+                    elif (player_dist>enemy_dist):
+                        score-=1
+                elif board[i][j]=="#" or board[i][j]=="x":
+                    if (player_dist<enemy_dist):
+                        score-=1
+                    elif (player_dist>enemy_dist):
+                        score+=1
+                elif board[i][j]=="@":
+                    if (player_dist<enemy_dist):
+                        score+=10
+                    elif (player_dist>enemy_dist):
+                        score-=10
+                elif board[i][j]=="!":
+                    if (player_dist<enemy_dist):
+                        score+=10
+                    elif (player_dist>enemy_dist):
+                        score-=10
+                elif board[i][j]=="^":
+                    if (player_dist<enemy_dist):
+                        score+=10
+                    elif (player_dist>enemy_dist):
+                        score-=10
+                elif board[i][j]=="*":
+                    if (player_dist<enemy_dist):
+                        score+=10
+                    elif (player_dist>enemy_dist):
+                        score-=10
+                elif board[i][j]=="?":
+                    if (player_dist<enemy_dist):
+                        score+=10
+                    elif (player_dist>enemy_dist):
+                        score-=10
+        return score
 
 class RandBot:
     """Moves in a random (safe) direction"""
