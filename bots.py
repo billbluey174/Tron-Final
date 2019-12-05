@@ -195,6 +195,27 @@ class StudentBot:
         
         
         return scores[state.ptm]
+
+    def evaluate_square(self, board, curr):
+        spot = board[curr[0]][curr[1]]
+
+        if spot == " ":
+            return 1
+        elif spot == "#" or spot == "x":
+            return 0
+        elif spot == "@":
+            return 10
+        elif spot == "!":
+            return 10
+        elif spot == "^":
+            return 10
+        elif spot == "*":
+            return 10
+        elif spot == "?":
+            return 10
+
+
+
         '''
         score = 0
         board = state.board
