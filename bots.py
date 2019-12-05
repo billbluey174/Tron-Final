@@ -49,11 +49,11 @@ class StudentBot:
         """
         pass
 
-    def get_safe_moves(self,board, loc):
+    def get_safe_moves(self, board, loc):
         #print(loc)
         safe = set()
         
-        curr = (loc[0]-1,loc[1])
+        curr = (loc[0]-1, loc[1])
         spot = board[curr[0]][curr[1]]
         
         if spot == "#" or spot == "x" or spot == "1" or spot == "2":
@@ -61,7 +61,7 @@ class StudentBot:
         else:
             safe.add(U)
             
-        curr = (loc[0]+1,loc[1])
+        curr = (loc[0]+1, loc[1])
         spot = board[curr[0]][curr[1]]
         
         if spot == "#" or spot == "x" or spot == "1" or spot == "2":
@@ -69,7 +69,7 @@ class StudentBot:
         else:
             safe.add(D)
         
-        curr = (loc[0],loc[1]-1)
+        curr = (loc[0], loc[1]-1)
         spot = board[curr[0]][curr[1]]
         
         if spot == "#" or spot == "x" or spot == "1" or spot == "2":
@@ -77,15 +77,14 @@ class StudentBot:
         else:
             safe.add(L)
         
-        curr = (loc[0],loc[1]+1)
+        curr = (loc[0], loc[1]+1)
         spot = board[curr[0]][curr[1]]
         
         if spot == "#" or spot == "x" or spot == "1" or spot == "2":
             pass
         else:
             safe.add(R)
-        
-        
+
         return safe
 
     def alpha_beta_cutoff(self, asp, cutoff_ply):
@@ -126,10 +125,10 @@ class StudentBot:
 
         # If the node is terminal, return its value
         if asp.is_terminal_state(state):
-            return [100*asp.evaluate_state(state)[asp.get_start_state().player_to_move()], None]
+            return [asp.evaluate_state(state)[asp.get_start_state().player_to_move()], None]
 
         if depth == 0:
-            return [self.heuristic(state), None]
+            return [self.heuristic1(state), None]
 
         # Store the possible actions
         possible_actions = self.get_safe_moves(state.board, state.player_locs[state.ptm])
@@ -233,7 +232,48 @@ class StudentBot:
             frontiers[ptm] = new_frontiers
             ptm = 1 - ptm
         
-        return scores[0]-scores[1]
+        return scores[0] - scores[1]
+
+    def heuristic1(self, state):
+        """
+        Takes in a TronState, returns a value indicating how good the state is
+        :param state: TronState
+        :return: a single value
+        """
+
+        ptm = 0
+        frontiers = [set(), set()]
+        frontiers[0].add(state.player_locs[ptm])
+        frontiers[1].add(state.player_locs[1])
+
+        visited = set()
+        scores = [0, 0]
+
+        while len(frontiers[0]) > 0 or len(frontiers[1]) > 0:
+
+            # If the player has nothing in frontier, move to the other player
+            if len(frontiers[ptm]) == 0:
+                ptm = 1 - ptm
+                continue
+
+            # While there is something in the frontier
+            while len(frontiers[ptm]) > 0:
+                curr = frontiers[ptm].pop()
+                visited.add(curr)
+
+                new_states = [(curr[0] - 1, curr[1]),
+                              (curr[0], curr[1] - 1),
+                              (curr[0] + 1, curr[1]),
+                              (curr[0], curr[1] + 1)]
+
+                for state in new_states:
+                    value = self.evaluate_square(state.board, state)
+                    scores[ptm] += value
+                    if value != 0:
+                        frontiers[ptm].add(state)
+
+        return scores[0] - scores[1]
+
     
     def check_square(self, board, curr):
         spot = board[curr[0]][curr[1]]
