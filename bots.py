@@ -30,8 +30,9 @@ class StudentBot:
         # possibilities = list(TronProblem.get_safe_actions(board, loc))
         # if possibilities:
         #     return random.choice(possibilities)
-        choice = self.alpha_beta_cutoff(asp, 1)
+        choice = self.alpha_beta_cutoff(asp, 10)
         #print(choice)
+        print(self.heuristic(asp.get_start_state()))
         return choice
 
     def cleanup(self):
@@ -47,6 +48,45 @@ class StudentBot:
         feel free to leave it as "pass"
         """
         pass
+
+    def get_safe_moves(self,board, loc):
+        #print(loc)
+        safe = set()
+        
+        curr = (loc[0]-1,loc[1])
+        spot = board[curr[0]][curr[1]]
+        
+        if spot == "#" or spot == "x" or spot == "1" or spot == "2":
+            pass
+        else:
+            safe.add(U)
+            
+        curr = (loc[0]+1,loc[1])
+        spot = board[curr[0]][curr[1]]
+        
+        if spot == "#" or spot == "x" or spot == "1" or spot == "2":
+            pass
+        else:
+            safe.add(D)
+        
+        curr = (loc[0],loc[1]-1)
+        spot = board[curr[0]][curr[1]]
+        
+        if spot == "#" or spot == "x" or spot == "1" or spot == "2":
+            pass
+        else:
+            safe.add(L)
+        
+        curr = (loc[0],loc[1]+1)
+        spot = board[curr[0]][curr[1]]
+        
+        if spot == "#" or spot == "x" or spot == "1" or spot == "2":
+            pass
+        else:
+            safe.add(R)
+        
+        
+        return safe
 
     def alpha_beta_cutoff(self, asp, cutoff_ply):
         """
@@ -92,8 +132,8 @@ class StudentBot:
             return [self.heuristic(state), None]
 
         # Store the possible actions
-        possible_actions = asp.get_safe_actions(state.board, state.player_locs[state.ptm])
-        print(possible_actions)
+        possible_actions = self.get_safe_moves(state.board, state.player_locs[state.ptm])
+        #print(possible_actions)
         # If this is the player we want to maximize
         if max_player:
 
@@ -156,7 +196,7 @@ class StudentBot:
         :param state: TronState
         :return: a single value
         """
-        ptm = 0
+        ptm = state.ptm
         player_loc = state.player_locs[ptm]
         enemy_loc = state.player_locs[1-ptm]
         frontiers = [set(), set()]
@@ -193,7 +233,7 @@ class StudentBot:
             frontiers[ptm] = new_frontiers
             ptm = 1 - ptm
         
-        return -(scores[0]-scores[1])
+        return -(scores[ptm]-scores[1-ptm])
 
     def evaluate_square(self, board, curr):
         spot = board[curr[0]][curr[1]]
@@ -259,6 +299,7 @@ class StudentBot:
                     elif (player_dist>enemy_dist):
                         score-=10
         return score
+    
 '''
 class RandBot:
     """Moves in a random (safe) direction"""
