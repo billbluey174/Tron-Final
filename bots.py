@@ -52,10 +52,38 @@ class StudentBot:
         :param state: TronState
         :return: a single value
         """
+        ptm = state.ptm
+        player_loc = state.player_locs[ptm] # current player's location
+        enemy_loc = state.player_locs[1-ptm]
+        frontiers = [set(), set()]
+        frontiers[ptm].add(player_loc)
+        frontiers[1-ptm].add(enemy_loc)
+        visited = set()
+        scores = [0, 0]
+        while len(frontiers[0])>0 and len(frontiers[1])>0:
+            if (len(frontiers[ptm])==0):
+                ptm = 1 - ptm
+                continue
+            
+            new_frontiers = set()
+            while len(frontiers[ptm])>0:
+                curr = frontiers[ptm].pop()
+                visited.add(curr)
+                
+                scores[ptm] += self.evaluate_square(state.board, curr)
+                
+                new_frontiers.add((player_loc[0]-1,player_loc[1]))
+                new_frontiers.add((player_loc[0],player_loc[1]-1))
+                new_frontiers.add((player_loc[0]+1,player_loc[1]))
+                new_frontiers.add((player_loc[0],player_loc[1]+1))
+                
+            ptm = 1 - ptm
         
-        player_loc = state.player_locs[state.ptm] # current player's location
-        enemy_loc = state.player_locs[1-state.ptm]
         
+        
+        
+        return scores[state.ptm]
+        '''
         score = 0
         board = state.board
         for i in range(len(board)):
@@ -98,7 +126,7 @@ class StudentBot:
                     elif (player_dist>enemy_dist):
                         score-=10
         return score
-
+'''
 class RandBot:
     """Moves in a random (safe) direction"""
 
