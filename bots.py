@@ -31,7 +31,7 @@ class StudentBot:
         # if possibilities:
         #     return random.choice(possibilities)
 
-        return self.alpha_beta_cutoff(asp, 5)
+        return self.alpha_beta_cutoff(asp, 10)
 
     def cleanup(self):
         """
@@ -88,7 +88,7 @@ class StudentBot:
             return [asp.evaluate_state(state)[asp.get_start_state().player_to_move()], None]
 
         if depth == 0:
-            return [self.heuristic(asp), None]
+            return [self.heuristic(state), None]
 
         # Store the possible actions
         possible_actions = asp.get_safe_actions(state.board, state.player_locs[state.ptm])
@@ -214,7 +214,8 @@ class StudentBot:
             return 10
         elif spot == "?":
             return 10
-
+        else:
+            return 0
 
 
         '''
