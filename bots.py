@@ -30,8 +30,9 @@ class StudentBot:
         # possibilities = list(TronProblem.get_safe_actions(board, loc))
         # if possibilities:
         #     return random.choice(possibilities)
-
-        return self.alpha_beta_cutoff(asp, 10)
+        choice = self.alpha_beta_cutoff(asp, 1)
+        #print(choice)
+        return choice
 
     def cleanup(self):
         """
@@ -92,7 +93,7 @@ class StudentBot:
 
         # Store the possible actions
         possible_actions = asp.get_safe_actions(state.board, state.player_locs[state.ptm])
-
+        print(possible_actions)
         # If this is the player we want to maximize
         if max_player:
 
@@ -155,8 +156,8 @@ class StudentBot:
         :param state: TronState
         :return: a single value
         """
-        ptm = state.ptm
-        player_loc = state.player_locs[ptm] # current player's location
+        ptm = 0
+        player_loc = state.player_locs[ptm]
         enemy_loc = state.player_locs[1-ptm]
         frontiers = [set(), set()]
         frontiers[ptm].add(player_loc)
@@ -192,7 +193,7 @@ class StudentBot:
             frontiers[ptm] = new_frontiers
             ptm = 1 - ptm
         
-        return (scores[state.ptm]-scores[1-state.ptm])
+        return -(scores[0]-scores[1])
 
     def evaluate_square(self, board, curr):
         spot = board[curr[0]][curr[1]]
