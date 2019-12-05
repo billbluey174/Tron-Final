@@ -30,7 +30,7 @@ class StudentBot:
         # possibilities = list(TronProblem.get_safe_actions(board, loc))
         # if possibilities:
         #     return random.choice(possibilities)
-        choice = self.alpha_beta_cutoff(asp, 10)
+        choice = self.alpha_beta_cutoff(asp, 5)
         #print(choice)
         print(self.heuristic(asp.get_start_state()))
         return choice
@@ -227,13 +227,23 @@ class StudentBot:
                               (curr[0],curr[1]+1)]
                 
                 for s in new_states:
-                    if s not in visited and s not in walls:
+                    if s not in visited and s not in walls and self.check_square(state.board, s):
                         new_frontiers.add(s)
 
             frontiers[ptm] = new_frontiers
             ptm = 1 - ptm
         
         return -(scores[ptm]-scores[1-ptm])
+    
+    def check_square(self, board, curr):
+        spot = board[curr[0]][curr[1]]
+        if spot == "#" or spot == "x" or spot == "1" or spot == "2":
+            return False
+        else:
+            return True
+        
+        
+    
 
     def evaluate_square(self, board, curr):
         spot = board[curr[0]][curr[1]]
