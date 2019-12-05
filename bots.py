@@ -303,7 +303,7 @@ class StudentBot:
         elif spot == "?":
             return 10
         else:
-            print('fuk')
+            print(spot)
             return 0
 
 
