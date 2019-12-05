@@ -22,15 +22,16 @@ class StudentBot:
         To get started, you can get the current
         state by calling asp.get_start_state()
         """
-        state = asp.get_start_state()
-        locs = state.player_locs
-        board = state.board
-        ptm = state.ptm
-        loc = locs[ptm]
-        possibilities = list(TronProblem.get_safe_actions(board, loc))
-        if possibilities:
-            return random.choice(possibilities)
-        return "U"
+        # state = asp.get_start_state()
+        # locs = state.player_locs
+        # board = state.board
+        # ptm = state.ptm
+        # loc = locs[ptm]
+        # possibilities = list(TronProblem.get_safe_actions(board, loc))
+        # if possibilities:
+        #     return random.choice(possibilities)
+
+        return self.alpha_beta_cutoff(asp, 5)
 
     def cleanup(self):
         """
@@ -46,7 +47,7 @@ class StudentBot:
         """
         pass
 
-    def alpha_beta_cutoff(self, asp, cutoff_ply, eval_func):
+    def alpha_beta_cutoff(self, asp, cutoff_ply):
         """
         This function should:
         - search through the asp using alpha-beta pruning
