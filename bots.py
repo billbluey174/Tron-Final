@@ -90,7 +90,7 @@ class StudentBot:
             return [self.heuristic(asp), None]
 
         # Store the possible actions
-        possible_actions = asp.get_available_actions(state)
+        possible_actions = asp.get_safe_actions(state.board, state.player_locs[state.ptm])
 
         # If this is the player we want to maximize
         if max_player:
