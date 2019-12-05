@@ -46,6 +46,13 @@ class StudentBot:
         """
         pass
 
+    def heuristic(self, state):
+        """
+        Takes in a state, returns a value indicating how good the state is
+        :param state: list of lists representing the board
+        :return: a single value
+        """
+
 
 class RandBot:
     """Moves in a random (safe) direction"""
