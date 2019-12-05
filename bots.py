@@ -126,7 +126,7 @@ class StudentBot:
 
         # If the node is terminal, return its value
         if asp.is_terminal_state(state):
-            return [self.heuristic(state), None]
+            return [asp.evaluate_state(state)[asp.get_start_state().player_to_move()], None]
 
         if depth == 0:
             return [self.heuristic(state), None]
