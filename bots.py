@@ -45,7 +45,6 @@ class StudentBot:
         turns_elapsed counter to zero). If you don't need it,
         feel free to leave it as "pass"
         """
-
         pass
 
     def alpha_beta_cutoff(self, asp, cutoff_ply):
