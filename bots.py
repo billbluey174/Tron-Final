@@ -243,10 +243,12 @@ class StudentBot:
 
         ptm = 0
         frontiers = [set(), set()]
-        frontiers[0].add(state.player_locs[ptm])
+        frontiers[0].add(state.player_locs[0])
         frontiers[1].add(state.player_locs[1])
 
         visited = set()
+        visited.add(state.player_locs[0])
+        visited.add(state.player_locs[1])
         scores = [0, 0]
 
         while len(frontiers[0]) > 0 or len(frontiers[1]) > 0:
@@ -259,7 +261,7 @@ class StudentBot:
             # While there is something in the frontier
             while len(frontiers[ptm]) > 0:
                 curr = frontiers[ptm].pop()
-                visited.add(curr)
+
 
                 new_states = [(curr[0] - 1, curr[1]),
                               (curr[0], curr[1] - 1),
@@ -270,6 +272,7 @@ class StudentBot:
                     value = self.evaluate_square(state.board, pos)
                     scores[ptm] += value
                     if value != 0 and pos not in visited:
+                        visited.add(pos)
                         new_frontiers.add(pos)
             frontiers[ptm] = new_frontiers
             ptm = 1 - ptm
