@@ -221,10 +221,10 @@ class StudentBot:
                 if value==0:
                     walls.add(curr)
                 
-                new_states = [(player_loc[0]-1,player_loc[1]),
-                              (player_loc[0],player_loc[1]-1),
-                              (player_loc[0]+1,player_loc[1]),
-                              (player_loc[0],player_loc[1]+1)]
+                new_states = [(curr[0]-1,curr[1]),
+                              (curr[0],curr[1]-1),
+                              (curr[0]+1,curr[1]),
+                              (curr[0],curr[1]+1)]
                 
                 for s in new_states:
                     if s not in visited and s not in walls:
