@@ -270,8 +270,9 @@ class StudentBot:
                     value = self.evaluate_square(state.board, pos)
                     scores[ptm] += value
                     if value != 0:
-                        new_frontiers[ptm].add(pos)
-            frontiers = new_frontiers
+                        new_frontiers.add(pos)
+            frontiers[ptm] = new_frontiers
+            ptm = 1 - ptm
 
         return scores[0] - scores[1]
 
