@@ -30,7 +30,7 @@ class StudentBot:
         # possibilities = list(TronProblem.get_safe_actions(board, loc))
         # if possibilities:
         #     return random.choice(possibilities)
-        choice = self.alpha_beta_cutoff(asp, 3)
+        choice = self.alpha_beta_cutoff(asp, 1)
         #print(choice)
         #print(self.heuristic(asp.get_start_state()))
         return choice
@@ -248,8 +248,10 @@ class StudentBot:
 
         visited = set()
         scores = [0, 0]
-
+        i=0
         while len(frontiers[0]) > 0 or len(frontiers[1]) > 0:
+            print(i)
+            i += 1
 
             # If the player has nothing in frontier, move to the other player
             if len(frontiers[ptm]) == 0:
