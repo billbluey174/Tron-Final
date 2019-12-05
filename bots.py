@@ -30,7 +30,7 @@ class StudentBot:
         # possibilities = list(TronProblem.get_safe_actions(board, loc))
         # if possibilities:
         #     return random.choice(possibilities)
-        choice = self.alpha_beta_cutoff(asp, 5)
+        choice = self.alpha_beta_cutoff(asp, 3)
         #print(choice)
         #print(self.heuristic(asp.get_start_state()))
         return choice
@@ -303,7 +303,6 @@ class StudentBot:
         elif spot == "?":
             return 10
         else:
-            print(spot)
             return 0
 
 
