@@ -60,7 +60,8 @@ class StudentBot:
         frontiers[1-ptm].add(enemy_loc)
         visited = set()
         scores = [0, 0]
-        while len(frontiers[0])>0 and len(frontiers[1])>0:
+        walls = set()
+        while len(frontiers[0])>0 or len(frontiers[1])>0:
             if (len(frontiers[ptm])==0):
                 ptm = 1 - ptm
                 continue
@@ -70,13 +71,22 @@ class StudentBot:
                 curr = frontiers[ptm].pop()
                 visited.add(curr)
                 
-                scores[ptm] += self.evaluate_square(state.board, curr)
+                value = self.evaluate_square(state.board,curr)
                 
-                new_frontiers.add((player_loc[0]-1,player_loc[1]))
-                new_frontiers.add((player_loc[0],player_loc[1]-1))
-                new_frontiers.add((player_loc[0]+1,player_loc[1]))
-                new_frontiers.add((player_loc[0],player_loc[1]+1))
+                scores[ptm] += value
+                if value==0:
+                    walls.add(curr)
                 
+                new_states = [(player_loc[0]-1,player_loc[1]),
+                              (player_loc[0],player_loc[1]-1),
+                              (player_loc[0]+1,player_loc[1]),
+                              (player_loc[0],player_loc[1]+1)]
+                
+                for s in new_states:
+                    if s not in visited and s not in walls:
+                        new_frontiers.add(s)
+
+            frontiers[ptm] = new_frontiers
             ptm = 1 - ptm
         
         
