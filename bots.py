@@ -266,11 +266,11 @@ class StudentBot:
                               (curr[0] + 1, curr[1]),
                               (curr[0], curr[1] + 1)]
 
-                for state in new_states:
-                    value = self.evaluate_square(state.board, state)
+                for pos in new_states:
+                    value = self.evaluate_square(state.board, pos)
                     scores[ptm] += value
                     if value != 0:
-                        frontiers[ptm].add(state)
+                        frontiers[ptm].add(pos)
 
         return scores[0] - scores[1]
 
@@ -303,6 +303,7 @@ class StudentBot:
         elif spot == "?":
             return 10
         else:
+            print('fuk')
             return 0
 
 
